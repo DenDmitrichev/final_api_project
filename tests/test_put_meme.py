@@ -20,6 +20,9 @@ def test_put_meme(put_meme_endpoint, create_meme_id):
     put_meme_endpoint.put_meme(create_meme_id, body)
     put_meme_endpoint.check_that_status_is_200()
     put_meme_endpoint.check_response_text_is_correct(body["text"])
+    put_meme_endpoint.check_response_url_is_correct(body["url"])
+    put_meme_endpoint.check_response_info_is_correct(body["info"])
+    put_meme_endpoint.check_response_tags_is_correct(body["tags"])
 
 
 @pytest.mark.parametrize("body", [
@@ -160,3 +163,22 @@ def test_put_meme_with_empty_values(put_meme_endpoint, create_meme_id, body):
 
     put_meme_endpoint.put_meme(create_meme_id, body)
     put_meme_endpoint.check_that_status_is_200()
+
+
+def test_put_meme_without_auth(put_meme_endpoint, create_meme_id):
+    body = {"id": create_meme_id,
+            "text": f'my new text{random.randint(1, 100)}',
+            "url": "https://jrnlst.ru/wp-content/uploads/2023/03/cover_6-1024x644.jpg",
+            "tags": [
+                "druzko",
+                "funny",
+                "memas"
+            ],
+            "info": {
+                "data": "september",
+                "year": "1989"
+            }
+
+            }
+    put_meme_endpoint.put_meme_without_auth(create_meme_id, body)
+    put_meme_endpoint.check_that_status_is_401()

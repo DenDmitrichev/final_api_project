@@ -28,3 +28,8 @@ class DeleteMeme(EndPoint):
         self.response = requests.delete(f'{self.url}',
                                         headers=headers)
         return self.response
+
+    @allure.step('Delete meme without auth')
+    def delete_meme_without_auth(self, meme_id, headers=None):
+        self.response = requests.delete(f'{self.url}/{meme_id}', headers=headers)
+        return self.response

@@ -47,7 +47,7 @@ def delete_meme_endpoint(headers_with_auth):
 
 
 @pytest.fixture()
-def create_meme_id(headers_with_auth):
+def create_meme_id(create_meme_endpoint, delete_meme_endpoint):
     body = {
         "text": "New_meme22",
         "url": "https://static.eldorado.ru/promo/src/chto-takoe-memy/img/img1.jpg",
@@ -57,12 +57,14 @@ def create_meme_id(headers_with_auth):
                  }
     }
     with allure.step('Create new object'):
-        response = requests.post('http://memesapi.course.qa-practice.com/meme', json=body,
-                                 headers=headers_with_auth)
-    obj_id = response.json()['id']
+        # Используем create_meme, который возвращает JSON
+        meme_data = create_meme_endpoint.create_meme(body)
+        obj_id = meme_data['id']
+
     yield obj_id
+
     with allure.step('Delete object'):
-        requests.delete(f'http://memesapi.course.qa-practice.com/meme/{obj_id}', headers=headers_with_auth)
+        delete_meme_endpoint.delete_meme(obj_id)
 
 
 @pytest.fixture(scope="session")

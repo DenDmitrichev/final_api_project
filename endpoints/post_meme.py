@@ -33,3 +33,10 @@ class PostMeme(EndPoint):
     def check_response_info_is_correct(self, info):
         with allure.step(f'Check response info == {info}'):
             assert self.json["info"] == info, 'url не совпадает'
+
+    @allure.step('Create meme without_auth')
+    def create_meme_without_auth(self, body):
+        headers = {'content-type': 'application/json'}
+        self.response = requests.post(self.url, json=body, headers=headers)
+        self.json = self.response.json()
+        return self.json

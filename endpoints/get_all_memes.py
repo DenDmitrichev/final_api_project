@@ -22,3 +22,9 @@ class GetAllMemes(EndPoint):
             response_data = self.response.json()
             assert isinstance(response_data, dict), "Ответ должен быть словарем"
 
+    @allure.step('Get all memes without_auth')
+    def get_all_memes_without_auth(self, headers=None):
+        self.response = requests.get(f'{self.url}',
+                                     headers=headers)
+        return self.response
+

@@ -24,3 +24,6 @@ class EndPoint:
     @allure.step('Check that response is 400')
     def check_that_status_is_400(self):
         assert self.response.status_code == 400, "Код ответа не 400"
+
+    def check_that_status_is_401(self):
+        assert self.response.status_code == 401, "код ответа не 401"

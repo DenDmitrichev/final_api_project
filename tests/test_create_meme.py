@@ -19,6 +19,7 @@ body = {"text": "New text",
 
 def test_create_meme(create_meme_endpoint):
     create_meme_endpoint.create_meme(body)
+    create_meme_endpoint.check_that_status_is_200()
     create_meme_endpoint.check_response_text_is_correct(body['text'])
     create_meme_endpoint.check_response_url_is_correct(body['url'])
     create_meme_endpoint.check_response_info_is_correct(body['info'])
@@ -72,5 +73,10 @@ def test_create_meme_without_fields(create_meme_endpoint, body2):
     """Негативные тесты: создание мема без обязательных полей"""
     create_meme_endpoint.create_meme(body2)
     create_meme_endpoint.check_that_status_is_400()
+
+
+def test_create_meme_without_auth(create_meme_endpoint):
+    create_meme_endpoint.create_meme_without_auth(body)
+    create_meme_endpoint.check_that_status_is_401()
 
 

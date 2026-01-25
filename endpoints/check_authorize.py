@@ -26,7 +26,7 @@ class CheckAuthorize(EndPoint):
     @allure.step('Check token and assert is invalid')
     def assert_token_invalid(self, token, headers=None):
         response = self.check_token(token, headers)
-        assert response.status_code != 200, f"Токен оказался валиден!. Status: {response.status_code}"
+        assert response.status_code == 404, f"Токен оказался валиден!. Status: {response.status_code}"
         assert not (500 <= response.status_code < 600), \
             f"СЕРВЕРНАЯ ОШИБКА! Status: {response.status_code}. Токен '{token}' вызвал падение сервера! "
 
